@@ -156,6 +156,8 @@ def register(
     # also download high resolution parcellations for final transformation
     parcellation_voxel_size, parcellation_image_size = download_data(parcellation_s3_path, parcellation_hr_name, 10000, return_size=True)
 
+    print("[DEBUG] Download Finished.")
+
     # initialize affine transformation for data
     # atlas_res = 100
     # atlas_s3_path = ara_average_data_link(atlas_res)
