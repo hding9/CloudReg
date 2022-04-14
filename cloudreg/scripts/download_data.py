@@ -45,12 +45,16 @@ def download_data(s3_path, outfile, desired_resolution, resample_isotropic=False
     mip_needed, resolution = get_mip_at_res(vol, np.array([desired_resolution] * 3))
     vol = CloudVolume(s3_path, mip=mip_needed, parallel=True)
 
-    print("[DEBUG] CloudVolume instance initialized.")
-
     # download img and convert to C order
     img = np.squeeze(vol[:, :, :]).T
+    
+    print(f"[DEBUG] img size is {img.shape}.")
+
     # save out as correct file type
     img_s = sitk.GetImageFromArray(img)
+
+    print(f"[DEBUG] Successfully generated sitk image object.")
+
     # set spacing in microns
     resolution = np.divide(resolution, 1000.0).tolist()
     img_s.SetSpacing(resolution)
