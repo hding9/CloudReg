@@ -159,7 +159,7 @@ def read_nii_bysitk(input_path, peel_info=True):
         peelinfo: taking direction, origin, spacing and metadata out
     """
     img_obj = sitk.ReadImage(input_path)
-    img_np = sitk.GetArrayFromImage(img_obj)
+    img_np = sitk.GetArrayFromImage(img_obj).astype(np.uint16)
     if peel_info:
         info_obj = {
                 "spacing": img_obj.GetSpacing(),
