@@ -45,6 +45,8 @@ def download_data(s3_path, outfile, desired_resolution, resample_isotropic=False
     mip_needed, resolution = get_mip_at_res(vol, np.array([desired_resolution] * 3))
     vol = CloudVolume(s3_path, mip=mip_needed, parallel=True)
 
+    print("[DEBUG] CloudVolume instance initialized.")
+
     # download img and convert to C order
     img = np.squeeze(vol[:, :, :]).T
     # save out as correct file type
