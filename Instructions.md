@@ -1,10 +1,35 @@
 ### Start docker image
-docker run --rm -v ~/Documents/cloudreg/data/input:/data/input -v ~/Documents/cloudreg/data/output:/data/output -ti neurodata/cloudreg:local
+The image neurodata/cloudreg:local has many flaws. The one that causes me most of time to debug is the shared memory settings.
+
+By default, it is set to a few mega bytes, which will cause "Bus error" when writing images with SimpleITK.
+
+While checking "docker-compose.yml" in CloudReg official repository, the shm_size is set to 20gb.
+
+Thus, add option "--shm-size=20gb" to `docker run` command
+
+```bash
+docker run --rm -v ~/Documents/cloudreg/data/input:/data/input -v ~/Documents/cloudreg/data/output:/data/output --shm-size=20gb -ti neurodata/cloudreg:local
+```
 
 ### Inside docker image
-- cd /root/
-- git clone https://github.com/hding9/CloudReg.git
-- cd CloudReg
-- pip install --upgrade numpy
-- python -m cloudreg.scripts.create_precomputed_volume_3d /data/input file:///data/output
-- python3 -m cloudreg.scripts.registration -input_s3_path file:///data/output  --output_s3_path file:///data/output  -log_s3_path file:///data/output -orientation SLA
+The basepath in `registration.py` is supposed to be "/root/" inside docker container.
+
+Thus, first `cd` to `/root/`, then clone CloudReg.
+
+`numpy` in `neurodata/cloudreg:local` container is outdated, which causes a bug when running python scripts. Also, it is stated in `Dockerfile` of the offical repository.
+
+
+```bash
+cd /root/ && \
+git clone https://github.com/hding9/CloudReg.git && \
+cd CloudReg && \
+pip install --upgrade numpy
+```
+
+```bash
+python -m cloudreg.scripts.create_precomputed_volume_3d /data/input file:///data/output
+```
+
+```bash
+python3 -m cloudreg.scripts.registration -input_s3_path file:///data/output  --output_s3_path file:///data/output  -log_s3_path file:///data/output -orientation SLA
+```
