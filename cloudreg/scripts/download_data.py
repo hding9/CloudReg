@@ -1,3 +1,4 @@
+from tkinter import W
 from .util import imgResample
 from cloudvolume import CloudVolume
 from argparse import ArgumentParser
@@ -47,6 +48,9 @@ def download_data(s3_path, outfile, desired_resolution, resample_isotropic=False
 
     # download img and convert to C order
     img = np.squeeze(vol[:, :, :]).T
+
+    with open('test.npy', 'wb') as f:
+        np.save(f, img)
     
     print(f"[DEBUG] img size is {img.shape}.")
 
