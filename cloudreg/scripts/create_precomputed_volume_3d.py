@@ -185,7 +185,10 @@ def nii2tif_slices(input_path):
         digits +=1
         z_total = int(z_total / 10)
     
-    for i in range(z):
+    dd = 10 ** (digits-1)
+    dd = int(z / dd)
+    
+    for i in np.arange(0, z, dd):
         im = Image.fromarray(img[...,i])
         im.save(f"{file_names[0].strip('.nii.gz')}_{str(i).zfill(digits)}.tif")
         
