@@ -3,6 +3,13 @@ The image neurodata/cloudreg:local has many flaws. The one that causes me most o
 
 By default, it is set to a few mega bytes, which will cause "Bus error" when writing images with SimpleITK.
 
+To check shared memory configuration:
+
+```
+docker inspect <image id> | grep -i shm
+```
+
+
 While checking "docker-compose.yml" in CloudReg official repository, the shm_size is set to 20gb.
 
 Thus, add option "--shm-size=20gb" to `docker run` command
