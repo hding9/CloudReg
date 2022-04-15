@@ -1,4 +1,3 @@
-from tkinter import W
 from .util import imgResample
 from cloudvolume import CloudVolume
 from argparse import ArgumentParser
