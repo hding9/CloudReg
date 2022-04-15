@@ -41,6 +41,9 @@ def download_data(s3_path, outfile, desired_resolution, resample_isotropic=False
     Returns:
         resolution: Resoluton of downloaded data in microns
     """
+
+    print(f"[DEBUG] outfile is: {outfile}")
+
     vol = CloudVolume(s3_path)
     mip_needed, resolution = get_mip_at_res(vol, np.array([desired_resolution] * 3))
     vol = CloudVolume(s3_path, mip=mip_needed, parallel=True)
