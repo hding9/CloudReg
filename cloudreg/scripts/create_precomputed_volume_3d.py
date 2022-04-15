@@ -1,5 +1,4 @@
 # local imports
-from tkinter import W
 from zipfile import ZIP_FILECOUNT_LIMIT
 from .util import tqdm_joblib, calc_hierarchy_levels
 
