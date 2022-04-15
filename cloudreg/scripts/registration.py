@@ -137,9 +137,9 @@ def register(
 
     # only after stitching autofluorescence channel
     base_path = os.path.expanduser("~/")
-    registration_prefix = f"{base_path}/{exp}_{channel}_registration/"
-    atlas_prefix = f'{base_path}/CloudReg/cloudreg/registration/atlases/'
-    target_name = f"{base_path}/autofluorescence_data.tif"
+    registration_prefix = f"{base_path}{exp}_{channel}_registration/"
+    atlas_prefix = f'{base_path}CloudReg/cloudreg/registration/atlases/'
+    target_name = f"{base_path}autofluorescence_data.tif"
     atlas_name = f"{atlas_prefix}/atlas_data.nrrd"
     parcellation_name = f"{atlas_prefix}/parcellation_data.nrrd"
     parcellation_hr_name = f"{atlas_prefix}/parcellation_data.tif"
