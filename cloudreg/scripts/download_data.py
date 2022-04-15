@@ -49,7 +49,7 @@ def download_data(s3_path, outfile, desired_resolution, resample_isotropic=False
     # download img and convert to C order
     img = np.squeeze(vol[:, :, :]).T
 
-    with open('test.npy', 'wb') as f:
+    with open(f"{outfile.strip('autofluorescence_data.tif')}test.npy", 'wb') as f:
         np.save(f, img)
     
     print(f"[DEBUG] img size is {img.shape}.")
