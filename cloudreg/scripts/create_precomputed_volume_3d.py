@@ -1,4 +1,5 @@
 # local imports
+from tkinter import W
 from zipfile import ZIP_FILECOUNT_LIMIT
 from .util import tqdm_joblib, calc_hierarchy_levels
 
@@ -186,7 +187,7 @@ def nii2tif_slices(input_path):
         z_total = int(z_total / 10)
     
     dd = 10 ** (digits-1)
-    dd = int(z / dd)
+    dd = int(z / dd) * 10
     
     for i in np.arange(0, z, dd):
         im = Image.fromarray(img[...,i])
