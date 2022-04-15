@@ -48,15 +48,15 @@ def download_data(s3_path, outfile, desired_resolution, resample_isotropic=False
     # download img and convert to C order
     img = np.squeeze(vol[:, :, :]).T
 
-    with open(f"{outfile.strip('autofluorescence_data.tif')}test.npy", 'wb') as f:
-        np.save(f, img)
+    # with open(f"{outfile.strip('autofluorescence_data.tif')}test.npy", 'wb') as f:
+    #     np.save(f, img)
     
-    print(f"[DEBUG] img size is {img.shape}.")
+    # print(f"[DEBUG] img size is {img.shape}.")
 
     # save out as correct file type
     img_s = sitk.GetImageFromArray(img)
 
-    print(f"[DEBUG] Successfully generated sitk image object.")
+    # print(f"[DEBUG] Successfully generated sitk image object.")
 
     # set spacing in microns
     resolution = np.divide(resolution, 1000.0).tolist()
