@@ -14,7 +14,9 @@ While checking "docker-compose.yml" in CloudReg official repository, the shm_siz
 
 Thus, add option "--shm-size=20gb" to `docker run` command
 
-**Note**: Download high resolution annotation data from aws seems always have connection failure when I was testing. Thus, I cut the original numpy array into pieces and download them seperately with `CloudVolume`. Once the data size is shrinked, it seems there's no problem for connection.
+**Note**: 
+
+Download high resolution annotation data from aws seems always have connection failure when I was testing. Thus, I cut the original numpy array into pieces and download them seperately with `CloudVolume`. Once the data size is shrinked, it seems there's no problem for connection.
 
 ```bash
 docker run --rm -v ~/Documents/cloudreg/data/input:/data/input -v ~/Documents/cloudreg/data/output:/data/output -v ~/Documents/cloudreg/data/downloads:~/CloudReg/cloudreg/registration/atlases --shm-size=20gb -ti neurodata/cloudreg:local
