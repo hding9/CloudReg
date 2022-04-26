@@ -171,12 +171,15 @@ def read_nii_bysitk(input_path, peel_info=True):
     else:
         return img_np
 
-def nii2tif_slices(input_path):
-    file_names = glob(f"{input_path}/*.nii.gz")
+def nii2tif_slices(input_path, output_path):
+    file_paths = glob(f"{input_path}/*.nii.gz")
     # cannot handle multiple nii images when they have different pixel sizes
     # thus read only the first image by default
-    img, info = read_nii_bysitk(file_names[0], peel_info=True)
+    img, info = read_nii_bysitk(file_paths[0], peel_info=True)
     img_size = info['array_size']
+    # The original image voxel size is in mm scale, convert to micron(um) scale to
+    # be the same with average template.
+    voxel_size = [s*1000 for s in info['spacing']]
     z = img_size[-1]
 
     digits = 0
@@ -185,14 +188,16 @@ def nii2tif_slices(input_path):
         digits +=1
         z_total = int(z_total / 10)
     
-    dd = 10 ** (digits-1)
-    dd = int(z / dd) * 10
+    # dd = 10 ** (digits-1)
+    # dd = int(z / dd) * 10
+    dd = 1
     
-    for i in np.arange(0, z, dd):
+    file_name = file_paths[0].split('/')[-1].strip('.nii.gz')
+    for i in tqdm(np.arange(0, z, dd), desc="Saving slices"):
         im = Image.fromarray(img[...,i])
-        im.save(f"{file_names[0].strip('.nii.gz')}_{str(i).zfill(digits)}.tif")
+        im.save(f"{output_path}/{file_name}_{str(i).zfill(digits)}.tif")
         
-    return img_size
+    return voxel_size
 
 
 if __name__ == "__main__":
@@ -221,7 +226,11 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    voxel_size = nii2tif_slices(args.input_path)
+    test_path = args.input_path.split('/')
+    test_path[-1] = "test"
+    test_path = '/'.join(test_path)
+
+    voxel_size = nii2tif_slices(test_path, args.input_path)
     create_precomputed_volume(
         args.input_path, np.array(voxel_size), args.precomputed_path, args.num_procs
     )

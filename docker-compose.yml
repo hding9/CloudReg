@@ -1,11 +1,31 @@
-version: "3.8"
-services:
-    cloudreg:
-        image: neurodata/cloudreg
-        shm_size: 20gb
-        secrets:
-            - cloudvolume_credentials
+# version: "3.8"
+# services:
+#     cloudreg:
+#         image: neurodata/cloudreg
+#         shm_size: 20gb
+#         secrets:
+#             - cloudvolume_credentials
 
-secrets:
-    cloudvolume_credentials:
-        file: "~/.cloudvolume/secrets/aws-secret.json"
+# secrets:
+#     cloudvolume_credentials:
+#         file: "~/.cloudvolume/secrets/aws-secret.json"
+
+services:
+  cloudreg:
+    image: neurodata/cloudreg:local
+    shm_size: 20G
+    stdin_open: true
+    working_dir: /root
+    volumes:
+      - "C:/Users/chemh/Documents/Workspaces/gitRepos/rootvol:/root"
+      - "C:/Users/chemh/Documents/Workspaces/gitRepos/rootvol/CloudReg/data/input:/data/input"
+      - "C:/Users/chemh/Documents/Workspaces/gitRepos/rootvol/CloudReg/data/output:/data/output"
+      - "C:/Users/chemh/Documents/Workspaces/gitRepos/rootvol/CloudReg/data/test:/data/test"
+  matlab:
+    image: mathworks/matlab-deep-learning:latest
+    shm_size: 512M
+    stdin_open: true
+    user: root
+    working_dir: /root
+    volumes:
+      - "C:/Users/chemh/Documents/Workspaces/gitRepos/rootvol:/root"
