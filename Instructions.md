@@ -74,7 +74,7 @@ Thus, first `cd` to `/root/`, then clone CloudReg.
 <del>cd /root/ && \</del>
 <del>git clone https://github.com/hding9/CloudReg.git && \</del>
 <del>cd CloudReg && \</del>
-pip install --upgrade numpy
+<del>pip install --upgrade numpy\</del>
 </pre></code>
 
 Generate files to `output` folder.
