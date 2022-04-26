@@ -9,24 +9,6 @@ To check shared memory configuration:
 docker inspect <image id> | grep -i shm
 ```
 
-
-#### Option 1: use docker run
-While checking "docker-compose.yml" in CloudReg official repository, the shm_size is set to 20gb.
-
-Thus, add option "--shm-size=20gb" to `docker run` command
-
-**Note**: 
-
-Download high resolution annotation data from aws seems always have connection failure when I was testing. Thus, I cut the original numpy array into pieces and download them seperately with `CloudVolume`. Once the data size is shrinked, it seems there's no problem for connection.
-
-```bash
-docker run --rm -v ~/Documents/CloudReg/data/input:/data/input -v ~/Documents/CloudReg/data/output:/data/output -v ~/Documents/CloudReg:/root/CloudReg --shm-size=20gb -ti neurodata/cloudreg:local
-```
-
-#### Option 2: use docker-compose
-
-This option starts both `neurodata/cloudreg:local` and `mathworks/matlab-deep-learning:latest` docker container.
-
 The `numpy` package in `neurodata/cloudreg:local` is outdated, and there are also some folder mapping issue. First fix them by run image in interactive mode:
 
 ```bash
@@ -51,7 +33,24 @@ At last, open another terminal
 docker commit CONTAINER_ID neurodata/cloudreg:local
 ```
 
-Then, start container with `docker-compose up -d` in `CloudReg` folder. To stop, type `docker-compose down`.
+#### Option 1: use docker run
+While checking "docker-compose.yml" in CloudReg official repository, the shm_size is set to 20gb.
+
+Thus, add option "--shm-size=20gb" to `docker run` command
+
+**Note**: 
+
+Download high resolution annotation data from aws seems always have connection failure when I was testing. Thus, I cut the original numpy array into pieces and download them seperately with `CloudVolume`. Once the data size is shrinked, it seems there's no problem for connection.
+
+```bash
+docker run --rm -v ~/Documents/CloudReg/data/input:/data/input -v ~/Documents/CloudReg/data/output:/data/output -v ~/Documents/CloudReg:/root/CloudReg --shm-size=20gb -ti neurodata/cloudreg:local
+```
+
+#### Option 2: use docker-compose
+
+This option starts both `neurodata/cloudreg:local` and `mathworks/matlab-deep-learning:latest` docker container.
+
+Start container with `docker-compose up -d` in `CloudReg` folder. To stop, type `docker-compose down`.
 
 Two containers will build and run, `cloudreg-cloudreg-1` and `cloudreg-matlab-1`
 
