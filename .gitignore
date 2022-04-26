@@ -111,3 +111,6 @@ data/
 
 # large annotation file
 parcellation_data.tif
+
+# bash history file
+.bash_history
