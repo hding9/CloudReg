@@ -17,10 +17,14 @@ services:
     stdin_open: true
     working_dir: /root
     volumes:
-      - "C:/Users/chemh/Documents/Workspaces/gitRepos/rootvol:/root"
-      - "C:/Users/chemh/Documents/Workspaces/gitRepos/rootvol/CloudReg/data/input:/data/input"
-      - "C:/Users/chemh/Documents/Workspaces/gitRepos/rootvol/CloudReg/data/output:/data/output"
-      - "C:/Users/chemh/Documents/Workspaces/gitRepos/rootvol/CloudReg/data/test:/data/test"
+      # For ubuntu
+      - /home/exx/Documents/rootvol:/root
+      - /home/exx/Documents/rootvol/CloudReg/data:/data
+      # For Windows
+      # - "C:/Users/chemh/Documents/Workspaces/gitRepos/rootvol:/root"
+      # - "C:/Users/chemh/Documents/Workspaces/gitRepos/rootvol/CloudReg/data/input:/data/input"
+      # - "C:/Users/chemh/Documents/Workspaces/gitRepos/rootvol/CloudReg/data/output:/data/output"
+      # - "C:/Users/chemh/Documents/Workspaces/gitRepos/rootvol/CloudReg/data/test:/data/test"
   matlab:
     image: mathworks/matlab-deep-learning:latest
     shm_size: 512M
@@ -28,4 +32,7 @@ services:
     user: root
     working_dir: /root
     volumes:
-      - "C:/Users/chemh/Documents/Workspaces/gitRepos/rootvol:/root"
+      # For ubuntu
+      - /home/exx/Documents/rootvol:/root
+      # For Windows
+      # - "C:/Users/chemh/Documents/Workspaces/gitRepos/rootvol:/root"

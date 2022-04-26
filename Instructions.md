@@ -47,7 +47,7 @@ Thus, add option "--shm-size=20gb" to `docker run` command
 Download high resolution annotation data from aws seems always have connection failure when I was testing. Thus, I cut the original numpy array into pieces and download them seperately with `CloudVolume`. Once the data size is shrinked, it seems there's no problem for connection.
 
 ```bash
-docker run --rm -v ~/Documents/rootvol/CloudReg/data/input:/data/input -v ~/Documents/rootvol/CloudReg/data/output:/data/output -v ~/Documents/rootvol:/root --shm-size=20gb -ti neurodata/cloudreg:local
+docker run --rm -v ~/Documents/rootvol/CloudReg/data:/data -v ~/Documents/rootvol:/root --workdir="/root" --shm-size=20gb -ti neurodata/cloudreg:local
 ```
 
 #### Option 2: use docker-compose
@@ -94,7 +94,7 @@ python3 -m cloudreg.scripts.registration -input_s3_path file:///data/output  --o
 The generated matlab command will be similar like:
 
 ```bash
-matlab -nodisplay -nosplash -nodesktop -r "niter=3000;sigmaR=5000.0;missing_data_correction=1;grid_correction=0;bias_correction=1;base_path='/root/';target_name='/root//autofluorescence_data.tif';registration_prefix='/root//data_output_registration/';atlas_prefix='/root//CloudReg/cloudreg/registration/atlases/';dxJ0=[9.999999776482582, 9.999999776482582, 9.999999776482582];fixed_scale=[1.0, 1.0, 1.0];initial_affine=[0.0, -1.0, 0.0, 0.0; 0.0, 0.0, -1.0, 0.0; -1.0, 0.0, 0.0, 0.0; 0.0, 0.0, 0.0, 1.0];parcellation_voxel_size=[10.0, 10.0, 10.0];parcellation_image_size=[1320, 800, 1140];tic;run('~/CloudReg/cloudreg/registration/map_nonuniform_multiscale_v02_mouse_gauss_newton.m');toc;exit;"
+matlab -nodisplay -nosplash -nodesktop -r "niter=3000;sigmaR=5000.0;missing_data_correction=1;grid_correction=0;bias_correction=1;base_path='/root/';target_name='/root//autofluorescence_data.tif';registration_prefix='/root//data_output_registration/';atlas_prefix='/root//CloudReg/cloudreg/registration/atlases/';dxJ0=[9.999999776482582, 9.999999776482582, 9.999999776482582];fixed_scale=[1.0, 1.0, 1.0];initial_affine=[0.0, -1.0, 0.0, 0.0; 0.0, 0.0, -1.0, 0.0; -1.0, 0.0, 0.0, 0.0; 0.0, 0.0, 0.0, 1.0];parcellation_voxel_size=[10.0, 10.0, 10.0];parcellation_image_size=[1320, 800, 1140];run('~/CloudReg/cloudreg/registration/map_nonuniform_multiscale_v02_mouse_gauss_newton.m');exit;"
 ```
 
 **Note**: matlab may need to be run as elevated privileges since the code create directories.
