@@ -1,3 +1,7 @@
+# How to use
+---
+Git clone this repo into an empty folder called `rootvol`.
+
 ## Start docker image
 The image neurodata/cloudreg:local has many flaws. The one that causes me most of time to debug is the shared memory settings.
 
@@ -15,7 +19,7 @@ The `numpy` package in `neurodata/cloudreg:local` is outdated, and there are als
 docker run --rm -it neurodata/cloudreg:local
 ```
 
-Then, inside container console, remove the redundant `CloudReg` folder since we are going to mount the host folder as the volume.
+Then, inside container console, remove the redundant `CloudReg` folder since we are going to mount the host `rootvol` folder as the volume. `rootvol` folder initially only has `CloudReg` folder. It is mapped to `/root` in `cloudreg` container.
 
 ```bash
 cd /
@@ -43,7 +47,7 @@ Thus, add option "--shm-size=20gb" to `docker run` command
 Download high resolution annotation data from aws seems always have connection failure when I was testing. Thus, I cut the original numpy array into pieces and download them seperately with `CloudVolume`. Once the data size is shrinked, it seems there's no problem for connection.
 
 ```bash
-docker run --rm -v ~/Documents/CloudReg/data/input:/data/input -v ~/Documents/CloudReg/data/output:/data/output -v ~/Documents/CloudReg:/root/CloudReg --shm-size=20gb -ti neurodata/cloudreg:local
+docker run --rm -v ~/Documents/rootvol/CloudReg/data/input:/data/input -v ~/Documents/rootvol/CloudReg/data/output:/data/output -v ~/Documents/rootvol:/root --shm-size=20gb -ti neurodata/cloudreg:local
 ```
 
 #### Option 2: use docker-compose
