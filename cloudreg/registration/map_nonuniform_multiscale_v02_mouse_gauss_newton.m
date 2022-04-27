@@ -6,7 +6,7 @@ curr_path = mfilename('fullpath');
 curr_path = strsplit(curr_path,'/');
 curr_path(end) = [];
 curr_path = strjoin(curr_path, '/');
-curr_path = 'C:/Users/chemh/Documents/Workspaces/gitRepos/rootvol/CloudReg/cloudreg/registration'
+% curr_path = 'C:/Users/chemh/Documents/Workspaces/gitRepos/rootvol/CloudReg/cloudreg/registration'
 addpath([curr_path,'/Functions/'])
 addpath([curr_path,'/Functions/avwQuiet/'])
 addpath([curr_path,'/Functions/downsample/'])
