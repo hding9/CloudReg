@@ -151,11 +151,11 @@ def register(
     # download raw data at lowest 15 microns
     voxel_size = download_data(input_s3_path, target_name, 15000)
     print(f"[DEBUG] voxel_size = {voxel_size}.")
-    # if not os.path.exists(atlas_name):
-    # download atlas and parcellations at registration resolution
-    _ = download_data(atlas_s3_path, atlas_name, registration_resolution, resample_isotropic=True)
-    # if not os.path.exists(parcellation_name):
-    _ = download_data(parcellation_s3_path, parcellation_name, registration_resolution, resample_isotropic=True)
+    if not os.path.exists(atlas_name):
+        # download atlas and parcellations at registration resolution
+        _ = download_data(atlas_s3_path, atlas_name, registration_resolution, resample_isotropic=True)
+    if not os.path.exists(parcellation_name):
+        _ = download_data(parcellation_s3_path, parcellation_name, registration_resolution, resample_isotropic=True)
     # download high resolution in a whole always give me some connection failure
     # thus break the numpy array into pieces and pre-download the file and combine
     if not os.path.exists(parcellation_hr_name):

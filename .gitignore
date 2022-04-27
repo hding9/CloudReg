@@ -105,6 +105,8 @@ venv.bak/
 
 # data
 data/
+atlas_data.nrrd
+parcellation_data.nrrd
 
 # notebooks
 *.ipynb
