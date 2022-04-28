@@ -171,11 +171,16 @@ def read_nii_bysitk(input_path, peel_info=True):
     else:
         return img_np
 
-def nii2tif_slices(input_path, output_path):
-    file_paths = glob(f"{input_path}/*.nii.gz")
+def nii2tif_slices(input_path, output_path, order=0):
+    """
+    input_path: hackathon data path contains original data
+    output_path: path that contains slices of the data.
+    order: which file in input_data to be sliced.
+    """
+    file_paths = sorted(glob(f"{input_path}/*.nii.gz"))
     # cannot handle multiple nii images when they have different pixel sizes
     # thus read only the first image by default
-    img, info = read_nii_bysitk(file_paths[0], peel_info=True)
+    img, info = read_nii_bysitk(file_paths[order], peel_info=True)
 
     ############################# NOTE ############################
     # numpy array returned by SimpleITK GetArrayFromImage is in ZYX shape
@@ -202,7 +207,7 @@ def nii2tif_slices(input_path, output_path):
     # dd = int(z / dd) * 10
     dd = 1
     
-    file_name = file_paths[0].split('/')[-1].strip('.nii.gz')
+    file_name = file_paths[order].split('/')[-1].strip('.nii.gz')
     for i in tqdm(np.arange(0, z, dd), desc="Saving slices"):
         im = Image.fromarray(img[i,...])
         im.save(f"{output_path}/{file_name}_{str(i).zfill(digits)}.tif")
@@ -236,11 +241,12 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    test_path = args.input_path.split('/')
-    test_path[-1] = "test"
-    test_path = '/'.join(test_path)
+    hackathon_data_path = args.input_path.split('/')
+    hackathon_data_path[-1] = "hackathon_data"
+    hackathon_data_path = '/'.join(hackathon_data_path)
 
-    voxel_size = nii2tif_slices(test_path, args.input_path)
+    # order = 1, meaning use downsampled hackathon image by factor of 2.
+    voxel_size = nii2tif_slices(hackathon_data_path, args.input_path, order=1)
     create_precomputed_volume(
         args.input_path, np.array(voxel_size), args.precomputed_path, args.num_procs
     )
