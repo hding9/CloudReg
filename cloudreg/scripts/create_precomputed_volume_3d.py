@@ -207,13 +207,14 @@ def nii2tif_slices(input_path, output_path, factor=1):
     #############################  ############################
     
     img_size = info['array_size']
+    print(f"[DEBUG] img_size is {img_size}")
     
     # The original image voxel size is in mm scale, convert to micron(um) scale to
     # be the same with average template.
     # Based on comments in create_precomputed_volume function,
     # Voxel size of image is in X,Y,Z in microns
     voxel_size = [s*1000 for s in info['spacing']][::-1]
-    z = img_size[0]
+    z = img_size[-1]
 
     digits = 0
     z_total = z
@@ -225,9 +226,11 @@ def nii2tif_slices(input_path, output_path, factor=1):
     # dd = int(z / dd) * 10
     dd = 1
     
+    # in order to make the new tif image looks the same as the nii.gz image
+    img = img[:,::-1,::-1]
     file_name = file_path.split('/')[-1].strip('.nii.gz')
     for i in tqdm(np.arange(0, z, dd), desc="Saving slices"):
-        im = Image.fromarray(img[i,...])
+        im = Image.fromarray(img[...,i])
         im.save(f"{output_path}/{file_name}_{str(i).zfill(digits)}.tif")
         
     return voxel_size
