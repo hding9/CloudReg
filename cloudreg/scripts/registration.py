@@ -134,6 +134,7 @@ def register(
     s3_url = S3Url(input_s3_path)
     channel = s3_url.key.split("/")[-1]
     exp = s3_url.key.split("/")[-2]
+    # print(f"[DEBUG] {s3_url.key}")
 
     # only after stitching autofluorescence channel
     base_path = os.path.expanduser("~/")
@@ -162,10 +163,17 @@ def register(
         # also download high resolution parcellations for final transformation
         parcellation_voxel_size, parcellation_image_size = download_data(parcellation_s3_path, parcellation_hr_name, 10000, return_size=True)
     else:
-        parcellation_voxel_size = [10.0, 10.0, 10.0]
-        parcellation_image_size = [1320, 800, 1140]
+        # parameters for atalas label in 10um 1000 x 1000 x 1000
+        # parcellation_voxel_size = [10.0, 10.0, 10.0]
+        # parcellation_image_size = [1320, 800, 1140]
+
+        # parameters for atalas label in 25um 1000 x 1000 x 1000
+        parcellation_voxel_size = [25.0, 25.0, 25.0]
+        parcellation_image_size = [528, 320, 456]
 
     print("[DEBUG] Download Finished.")
+    print(f"[DEBUG] parcellation_voxel_size: {parcellation_voxel_size}")
+    print(f"[DEBUG] parcellation_image_size: {parcellation_image_size}")
 
     # initialize affine transformation for data
     # atlas_res = 100
@@ -182,7 +190,7 @@ def register(
     # run registration
     affine_string = [", ".join(map(str, i)) for i in initial_affine]
     affine_string = "; ".join(affine_string)
-    print(affine_string)
+    # print(affine_string)
     matlab_registration_command = f"""
         matlab -nodisplay -nosplash -nodesktop -r \"niter={num_iterations};sigmaR={regularization};missing_data_correction={int(missing_data_correction)};grid_correction={int(grid_correction)};bias_correction={int(bias_correction)};base_path=\'{base_path}\';target_name=\'{target_name}\';registration_prefix=\'{registration_prefix}\';atlas_prefix=\'{atlas_prefix}\';dxJ0={voxel_size};fixed_scale={fixed_scale};initial_affine=[{affine_string}];parcellation_voxel_size={parcellation_voxel_size};parcellation_image_size={parcellation_image_size};run(\'~/CloudReg/cloudreg/registration/map_nonuniform_multiscale_v02_mouse_gauss_newton.m\'); exit;\"
     """
@@ -245,7 +253,10 @@ if __name__ == "__main__":
         "--parcellation_s3_path",
         help="S3 path to corresponding atlas parcellations. If atlas path is provided, this should also be provided. Should be of the form s3://<bucket>/<path_to_precomputed>. Default is Allen Reference atlas parcellations path",
         type=str,
-        default=ara_annotation_data_link(10),
+        # default=ara_annotation_data_link(10),
+        # 10um of atals label is too large, which will make matlab running out of memory
+        # use 25um temporarily
+        default=ara_annotation_data_link(25),
     )
     parser.add_argument(
         "--atlas_orientation",
