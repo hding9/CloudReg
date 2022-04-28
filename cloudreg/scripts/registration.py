@@ -196,7 +196,7 @@ def register(
     """
     print(matlab_registration_command)
     # RUN MATLAB COMMAND LOCAL SEPERATELY!!!
-    # subprocess.run(shlex.split(matlab_registration_command))
+    subprocess.run(shlex.split(matlab_registration_command))
 
     # save results to S3
     # if log_s3_path:
