@@ -111,8 +111,8 @@ parcellation_data.nrrd
 # notebooks
 *.ipynb
 
-# large annotation file
-parcellation_data.tif
+# atalas file
+atlases/
 
 # bash history file
 .bash_history
