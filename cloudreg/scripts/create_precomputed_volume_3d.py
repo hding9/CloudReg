@@ -183,6 +183,7 @@ def nii2tif_slices(input_path, output_path, factor=1):
         if factor == 1:
             if re.search(r"SLA.nii.gz", f_path):
                 file_path = f_path
+                break
             else:
                 raise FileNotFoundError
         else:
