@@ -83,12 +83,12 @@ Thus, first `cd` to `/root/`, then clone CloudReg.
 Generate files to `output` folder.
 
 ```bash
-python -m cloudreg.scripts.create_precomputed_volume_3d /data/input file:///data/output
+python -m cloudreg.scripts.create_precomputed_volume_3d /data/raw file:///data/processed
 ```
 
 Run registration.
 ```bash
-python3 -m cloudreg.scripts.registration -input_s3_path file:///data/output  --output_s3_path file:///data/output  -log_s3_path file:///data/output -orientation SLA
+python3 -m cloudreg.scripts.registration -input_s3_path file:///data/processed  --output_s3_path file:///data/output  -log_s3_path file:///data/log -orientation SLA
 ```
 
 The generated matlab command will be similar like:
