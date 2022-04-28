@@ -19,12 +19,10 @@ services:
     volumes:
       # For ubuntu
       - /home/exx/Documents/rootvol:/root
-      - /home/exx/Documents/rootvol/CloudReg/data:/data
+      - /home/exx/Documents/rootvol/data:/data
       # For Windows
       # - "C:/Users/chemh/Documents/Workspaces/gitRepos/rootvol:/root"
-      # - "C:/Users/chemh/Documents/Workspaces/gitRepos/rootvol/CloudReg/data/input:/data/input"
-      # - "C:/Users/chemh/Documents/Workspaces/gitRepos/rootvol/CloudReg/data/output:/data/output"
-      # - "C:/Users/chemh/Documents/Workspaces/gitRepos/rootvol/CloudReg/data/test:/data/test"
+      # - "C:/Users/chemh/Documents/Workspaces/gitRepos/rootvol/data:/data"
   matlab:
     image: mathworks/matlab-deep-learning:latest
     shm_size: 512M

@@ -47,7 +47,7 @@ Thus, add option "--shm-size=20gb" to `docker run` command
 Download high resolution annotation data from aws seems always have connection failure when I was testing. Thus, I cut the original numpy array into pieces and download them seperately with `CloudVolume`. Once the data size is shrinked, it seems there's no problem for connection.
 
 ```bash
-docker run --rm -v ~/Documents/rootvol/CloudReg/data:/data -v ~/Documents/rootvol:/root --workdir="/root" --shm-size=20gb -ti neurodata/cloudreg:local
+docker run --rm -v ~/Documents/rootvol/data:/data -v ~/Documents/rootvol:/root --workdir="/root" --shm-size=20gb -ti neurodata/cloudreg:local
 ```
 
 #### Option 2: use docker-compose
