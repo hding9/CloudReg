@@ -1,12 +1,20 @@
 close all;
 fclose all;
 
+if ~exist('is_windows')
+    is_windows = 0;
+end
+
 
 curr_path = mfilename('fullpath');
 curr_path = strsplit(curr_path,'/');
 curr_path(end) = [];
 curr_path = strjoin(curr_path, '/');
-% curr_path = 'C:/Users/chemh/Documents/Workspaces/gitRepos/rootvol/CloudReg/cloudreg/registration'
+
+if is_windows == 1
+    curr_path = 'C:/Users/chemh/Documents/Workspaces/gitRepos/rootvol/CloudReg/cloudreg/registration'
+end
+
 addpath([curr_path,'/Functions/'])
 addpath([curr_path,'/Functions/avwQuiet/'])
 addpath([curr_path,'/Functions/downsample/'])
@@ -1032,7 +1040,12 @@ end % of downloop
 
 % save out high resolution parcellations transformed to input data
 % and input data transformed to parcellations
-parcellation_path = [atlas_prefix 'parcellation_data.tif'];
+if is_windows == 1
+    parcellation_path = [atlas_prefix 'parcellation_data_10um_1000x3.tif'];
+else
+    parcellation_path = [atlas_prefix 'parcellation_data_25um_1000x3.tif'];
+end
+% parcellation_path = [atlas_prefix 'parcellation_data.tif'];
 % parcellation_voxel_size = [];
 % atlas_voxel_size = [10.0, 10.0, 10.0]; % microns
 % hard coding ARA 10 um image size
@@ -1046,6 +1059,7 @@ dxJT = dxJ0;
 % nxJT = nxJ0;
 scalef = (dxJ0./dxJT);
 nxJT = fix(nxJ0.*scalef);
+disp(parcellation_path);
 save([prefix 'transform_params.mat'],'target_name','parcellation_path','parcellation_voxel_size','parcellation_image_size','output_path_target','output_path_atlas','nxJ0','dxJ0','nxJT','dxJT','dxI','vname','Aname')
 transform_data(target_name,dxJ0,Aname,vname,dxI,parcellation_voxel_size,parcellation_image_size,'atlas',output_path_target,'linear')
 transform_data(parcellation_path,parcellation_voxel_size,Aname,vname,dxI,dxJT,nxJT,'target',output_path_atlas,'nearest')
