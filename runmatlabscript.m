@@ -1,5 +1,5 @@
 is_windows = 0;
-niter=10;
+niter=3000;
 sigmaR=5000.0;
 missing_data_correction=1;
 grid_correction=0;
@@ -12,7 +12,7 @@ if is_windows == 1
     dxJ0=[9.999999776482582, 9.999999776482582, 9.999999776482582];
 else
     base_path='/home/exx/Documents/rootvol';
-    target_name='/home/exx/Documents/rootvol/rootvol/autofluorescence_data.tif';
+    target_name='/home/exx/Documents/rootvol/autofluorescence_data.tif';
     registration_prefix='/home/exx/Documents/rootvol/data_processed_registration/';
     atlas_prefix='/home/exx/Documents/rootvol/CloudReg/cloudreg/registration/atlases/';
     dxJ0=[19.999999552965164, 19.999999552965164, 19.999999552965164];
@@ -27,4 +27,9 @@ else
     parcellation_image_size=[528, 320, 456];
 end
     
-run('C:/Users/chemh/Documents/Workspaces/gitRepos/rootvol/CloudReg/cloudreg/registration/map_nonuniform_multiscale_v02_mouse_gauss_newton.m');
+if is_windows == 1
+    run('C:/Users/chemh/Documents/Workspaces/gitRepos/rootvol/CloudReg/cloudreg/registration/map_nonuniform_multiscale_v02_mouse_gauss_newton.m');
+else
+    run('/home/exx/Documents/rootvol/CloudReg/cloudreg/registration/map_nonuniform_multiscale_v02_mouse_gauss_newton.m');
+end    
+exit;
