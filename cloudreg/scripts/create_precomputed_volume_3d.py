@@ -266,7 +266,7 @@ if __name__ == "__main__":
     hackathon_data_path[-1] = "hackathon_data"
     hackathon_data_path = '/'.join(hackathon_data_path)
 
-    # order = 1, meaning use downsampled hackathon image by factor of 2.
+    # order = 1, meaning use original image without downsampling
     voxel_size = nii2tif_slices(hackathon_data_path, args.input_path, factor=2)
     create_precomputed_volume(
         args.input_path, np.array(voxel_size), args.precomputed_path, args.num_procs
